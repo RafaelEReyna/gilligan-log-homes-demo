@@ -1175,8 +1175,8 @@ textarea { font: inherit; color: inherit; }
   width: var(--container);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
-  gap: var(--s-4);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-3);
 }
 
 .family__card {
@@ -1184,23 +1184,101 @@ textarea { font: inherit; color: inherit; }
   flex-direction: column;
 }
 
-.family__portrait {
+/* Typographic nameplates (replaces portrait imagery) */
+.family__plate {
   aspect-ratio: 4/5;
-  overflow: hidden;
+  position: relative;
   margin-bottom: var(--s-3);
-  background: var(--cream-200);
+  padding: clamp(1rem, 0.7rem + 1vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background: var(--pine-900);
+  color: var(--cream-50);
+  transition: transform 0.6s var(--ease-out);
 }
-.family__portrait img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(0.1) contrast(1.02);
-  transition: transform 1.4s var(--ease-out), filter 0.8s ease;
+.family__card:hover .family__plate { transform: translateY(-3px); }
+
+.family__plate::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid color-mix(in oklch, currentColor 26%, transparent);
+  pointer-events: none;
 }
-.family__card:hover .family__portrait img {
-  transform: scale(1.03);
-  filter: grayscale(0) contrast(1.05);
+.family__plate::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid color-mix(in oklch, currentColor 10%, transparent);
+  pointer-events: none;
 }
+
+.family__plate-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  padding: 0.3rem 0.4rem 0;
+}
+.family__plate-mark {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.82rem;
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  color: color-mix(in oklch, currentColor 72%, transparent);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.family__plate-orn {
+  width: 46px;
+  height: 16px;
+  color: color-mix(in oklch, currentColor 60%, transparent);
+}
+
+.family__plate-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.75rem, 1.3rem + 5.5vw, 5.25rem);
+  line-height: 0.85;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  letter-spacing: -0.035em;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  color: currentColor;
+  padding: 0.2em 0;
+  word-break: normal;
+}
+
+.family__plate-bottom {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-bottom: 0.3rem;
+}
+.family__plate-rule {
+  width: 36px;
+  height: 1px;
+  background: color-mix(in oklch, currentColor 55%, transparent);
+  margin: 0 auto 0.75rem;
+}
+.family__plate-year {
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, currentColor 72%, transparent);
+  font-weight: 500;
+}
+
+/* Plate color variations */
+.family__plate--darkest { background: var(--pine-950); color: var(--cream-50); }
+.family__plate--pine    { background: var(--pine-900); color: var(--cream-50); }
+.family__plate--cream   { background: var(--cream-200); color: var(--pine-950); }
+.family__plate--rust    { background: color-mix(in oklch, var(--pine-900) 78%, var(--rust-700)); color: var(--cream-50); }
 
 .family__role {
   font-size: 0.68rem;
@@ -1256,23 +1334,11 @@ textarea { font: inherit; color: inherit; }
   font-weight: 500;
 }
 
-.family__card--brad .family__portrait { aspect-ratio: 4/5.2; }
-
-@media (max-width: 920px) {
-  .family__grid { grid-template-columns: 1fr 1fr; gap: var(--s-4); }
-  .family__card--brad {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: var(--s-4);
-    align-items: center;
-  }
-  .family__card--brad .family__portrait { margin-bottom: 0; }
+@media (max-width: 1100px) {
+  .family__grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
 }
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .family__grid { grid-template-columns: 1fr; }
-  .family__card--brad { grid-template-columns: 1fr; }
-  .family__card--brad .family__portrait { margin-bottom: var(--s-3); }
 }
 
 /* =========================================================
